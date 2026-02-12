@@ -1,0 +1,214 @@
+<!-- <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fortuneo Mobile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div id="page-comptes" class="page active">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="clickable">❮</span>
+                <span class="page-title">Compte courant</span>
+                <span class="clickable">•••</span>
+            </div>
+            <div class="account-details">
+                <p class="user-name">M FORTUNEO ANDRE</p>
+                <p class="account-id">N° 013856747747</p>
+                <h1 class="main-balance">1 554,07 €</h1>
+                <p class="pending-amount">A venir : 0,00 €</p>
+            </div>
+        </header>
+
+      <div class="tabs-container">
+    <div id="tab-hist" class="tab active" onclick="switchTab('historique')">HISTORIQUE</div>
+    <div id="tab-aven" class="tab" onclick="switchTab('avenir')">A VENIR</div>
+</div>
+
+        <div id="view-historique" class="content">
+            <div class="date-label">9 décembre</div>
+            <div class="transaction">
+                <div class="icon-circle energy">⚡</div>
+                <div class="details">Priv Energie</div>
+                <div class="amount negative">-37,00 €</div>
+            </div>
+            <div class="date-label">6 décembre</div>
+            <div class="transaction highlight">
+                <div class="icon-circle transfer">✈️</div>
+                <div class="details">Vir Inst Demo</div>
+                <div class="amount positive">+500,00 €</div>
+            </div>
+        </div>
+
+        <div id="view-avenir" class="content" style="display: none;">
+            <p class="empty-msg">Aucune opération à venir pour le moment.</p>
+        </div>
+    </div>
+
+    <div id="page-paiement" class="page">
+        <header class="header">
+            <h2 class="form-title">Effectuer un virement</h2>
+        </header>
+        <div class="payment-form">
+            <div class="form-group">
+                <label for="pay-name">NOM DU BÉNÉFICIAIRE</label>
+                <input type="text" id="pay-name" placeholder="Ex: Jean Dupont" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label for="pay-iban">IBAN</label>
+                <input type="text" id="pay-iban" placeholder="FR76 3000 6000 ...">
+            </div>
+            <div class="form-group">
+                <label for="pay-amount">MONTANT DU VIREMENT (€)</label>
+                <input type="number" id="pay-amount" step="0.01" placeholder="0,00">
+            </div>
+            <button class="btn-send" onclick="confirmPayment()">Confirmer le virement</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" id="btn-nav-comptes" onclick="showPage('page-comptes', 'btn-nav-comptes')">
+            <span class="icon">🏠</span>
+            <span class="label">Comptes</span>
+        </div>
+        <div class="nav-item" id="btn-nav-paiements" onclick="showPage('page-paiement', 'btn-nav-paiements')">
+            <span class="icon">⇄</span>
+            <span class="label">Paiements</span>
+        </div>
+        <div class="nav-item"><span class="icon">💳</span><span class="label">Cartes</span></div>
+        <div class="nav-item"><span class="icon">●●●</span><span class="label">Plus</span></div>
+    </nav>
+</div>
+
+<script>
+    function showPage(pageId, navId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(navId).classList.add('active');
+    }
+
+    function switchTab(type) {
+        const isHist = type === 'historique';
+        document.getElementById('view-historique').style.display = isHist ? 'block' : 'none';
+        document.getElementById('view-avenir').style.display = isHist ? 'none' : 'block';
+        document.getElementById('tab-hist').classList.toggle('active', isHist);
+        document.getElementById('tab-aven').classList.toggle('active', !isHist);
+    }
+
+    function confirmPayment() {
+        const name = document.getElementById('pay-name').value;
+        const amount = document.getElementById('pay-amount').value;
+        
+        if(name && amount > 0) {
+            alert(`✅ Virement de ${amount}€ enregistré vers ${name}`);
+            // Reset du formulaire
+            document.getElementById('pay-name').value = "";
+            document.getElementById('pay-iban').value = "";
+            document.getElementById('pay-amount').value = "";
+            showPage('page-comptes', 'btn-nav-comptes');
+        } else {
+            alert("⚠️ Veuillez saisir un nom et un montant valide.");
+        }
+    }
+</script>
+<script src="script.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fortuneo Mobile</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div id="page-comptes" class="page active">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="clickable">❮</span>
+                <span class="page-title">Compte courant</span>
+                <span class="clickable">•••</span>
+            </div>
+            <div class="account-details">
+                <p class="user-name">M FORTUNEO ANDRE</p>
+                <p class="account-id">N° 013856747747</p>
+                <h1 class="main-balance">42 000 €</h1>
+                <p class="pending-amount">A venir : 0,00 €</p>
+            </div>
+        </header>
+
+        <div class="tabs-container">
+            <div id="tab-hist" class="tab active" onclick="switchTab('historique')">HISTORIQUE</div>
+            <div id="tab-aven" class="tab" onclick="switchTab('avenir')">A VENIR</div>
+        </div>
+
+        <div id="view-historique" class="content">
+            <div class="date-label">9 décembre</div>
+            <div class="transaction">
+                <div class="icon-circle energy">⚡</div>
+                <div class="details">Priv Energie</div>
+                <div class="amount negative">-37,00 €</div>
+            </div>
+            <div class="date-label">6 décembre</div>
+            <div class="transaction highlight">
+                <div class="icon-circle transfer">✈️</div>
+                <div class="details">Vir Inst Demo</div>
+                <div class="amount positive">+42 000,00 €</div>
+            </div>
+        </div>
+
+        <div id="view-avenir" class="content" style="display: none;">
+            <p class="empty-msg">Aucune opération à venir pour le moment.</p>
+        </div>
+    </div>
+
+    <div id="page-paiement" class="page">
+        <header class="header">
+            <h2 class="form-title">Effectuer un virement</h2>
+        </header>
+        <div class="payment-form">
+            <div class="form-group">
+                <label for="pay-name">NOM DU BÉNÉFICIAIRE</label>
+                <input type="text" id="pay-name" placeholder="Ex: Jean Dupont" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label for="pay-iban">IBAN</label>
+                <input type="text" id="pay-iban" placeholder="FR76 3000 6000 ...">
+            </div>
+            <div class="form-group">
+                <label for="pay-amount">MONTANT DU VIREMENT (€)</label>
+                <input type="number" id="pay-amount" step="0.01" placeholder="0,00">
+            </div>
+            <button class="btn-send" onclick="confirmPayment()">Confirmer le virement</button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" id="btn-nav-comptes" onclick="showPage('page-comptes', 'btn-nav-comptes')">
+            <span class="icon">🏠</span>
+            <span class="label">Comptes</span>
+        </div>
+        <div class="nav-item" id="btn-nav-paiements" onclick="showPage('page-paiement', 'btn-nav-paiements')">
+            <span class="icon">⇄</span>
+            <span class="label">Paiements</span>
+        </div>
+        <div class="nav-item"><span class="icon">💳</span><span class="label">Cartes</span></div>
+        <div class="nav-item"><span class="icon">●●●</span><span class="label">Plus</span></div>
+    </nav>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
