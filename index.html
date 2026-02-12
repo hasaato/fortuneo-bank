@@ -19,9 +19,9 @@
                 <span>•••</span>
             </div>
             <div class="account-details">
-                <p class="user-name">M FORTUNEO ANDRE</p>
+                <p class="user-name">M ANGELO GAFFURI</p>
                 <p class="account-id">N° 013856747747</p>
-                <h1 class="main-balance" id="solde-text">42 000 €</h1>
+                <h1 class="main-balance" id="solde-text">... €</h1>
                 <p class="pending-amount">A venir : 0,00 €</p>
             </div>
         </header>
@@ -32,13 +32,7 @@
         </div>
 
         <div id="view-historique" class="content">
-            <div class="date-label">12 Février </div>
-            <div class="transaction">
-                <div class="icon-circle energy">💶 </div>
-                <div class="details">  Dépôt</div>
-                <div class="amount negative">+  42 000 €</div>
             </div>
-        </div>
 
         <div id="view-avenir" class="content" style="display: none;">
             <p class="empty-msg">Aucune opération à venir.</p>
@@ -55,13 +49,18 @@
                 <input type="text" id="pay-name" placeholder="Nom">
             </div>
             <div class="form-group">
-        <label>IBAN DU COMPTE À CRÉDITER</label>
-        <input type="text" id="pay-iban" placeholder="FR76 1234 ...">
+                <label>IBAN DU COMPTE À CRÉDITER</label>
+                <input type="text" id="pay-iban" placeholder="FR76 1234 ...">
+            </div>
+            <div class="form-group">
+                <label>CODE DE SÉCURITÉ</label>
+                <input type="password" id="pay-code" maxlength="6" placeholder="Entrez votre code">
             </div>
             <div class="form-group">
                 <label>MONTANT (€)</label>
                 <input type="number" id="pay-amount" placeholder="0,00">
             </div>
+            
             <button class="btn-send" onclick="confirmPayment()">Confirmer</button>
         </div>
     </div>
@@ -79,32 +78,50 @@
             <button class="btn-add" onclick="alert('Demande de carte envoyée !')">Ajouter une carte</button>
         </div>
     </div>
-    <div id="page-plus" class="page">
-        <header class="header">
-            <div class="top-navigation">
-                <span>❮</span>
-                <span class="page-title">Sécurité</span>
-                <span>•••</span>
-            </div>
-        </header>
 
-        <div class="payment-form"> <h3 style="text-align: center; color: var(--text-dark); margin-bottom: 20px;">Changer le mot de passe</h3>
-            
+<header class="header">
+    <div class="top-navigation">
+        <span></span>
+        <span class="page-title">Plus</span>
+        <span></span>
+    </div>
+</header>
+
+<div class="menu-list">
+    <div class="menu-item">
+        <span class="menu-icon">📄</span>
+        <span class="menu-label">Documents</span>
+    </div>
+    <div class="menu-item">
+        <span class="menu-icon">🔔</span>
+        <span class="menu-label">Alertes</span>
+    </div>
+    <div class="menu-item">
+        <span class="menu-icon" style="color: #73A320;">👤</span>
+        <span class="menu-label">Nos produits</span>
+    </div>
+
+    <div class="menu-item" onclick="togglePasswordMenu()" style="cursor: pointer;">
+        <span class="menu-icon">🔐</span>
+        <span class="menu-label" style="flex: 1;">Sécurité / Mot de passe</span>
+        <span id="pass-arrow" style="transition: transform 0.3s;">▼</span>
+    </div>
+
+    <div id="password-accordion" style="display: none; padding: 20px; background: #fdfdfd; border-bottom: 1px solid #eee;">
+        <div class="payment-form">
             <div class="form-group">
                 <label>ANCIEN MOT DE PASSE</label>
                 <input type="password" id="old-pass" placeholder="••••••••">
             </div>
-            
             <div class="form-group">
                 <label>NOUVEAU MOT DE PASSE</label>
                 <input type="password" id="new-pass" placeholder="••••••••">
             </div>
-
             <button class="btn-send" onclick="changePassword()">Confirmer le changement</button>
         </div>
     </div>
+</div>
     
-
     <nav class="bottom-nav">
         <div class="nav-item active" id="btn-nav-comptes" onclick="showPage('page-comptes', 'btn-nav-comptes')">
             <span class="icon">🏠</span><span class="label">Comptes</span>
@@ -124,4 +141,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
