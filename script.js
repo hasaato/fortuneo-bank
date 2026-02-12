@@ -1,13 +1,24 @@
 // ============================================================
-// 1. CONFIGURATION INITIALE
+// 1. CONFIGURATION INITIALE ET MÉMOIRE
 // ============================================================
 
-// Ton solde de départ (C'est ici que l'argent est stocké en mémoire)
-let solde = 42000;
+// 1. On charge le solde (soit mémoire, soit défaut 42 000)
+let solde = localStorage.getItem('mon_solde') 
+            ? parseFloat(localStorage.getItem('mon_solde')) 
+            : 42000.00;
+
+// 2. On charge l'historique (soit mémoire, soit tableau vide)
+let transactions = localStorage.getItem('mes_transactions')
+                   ? JSON.parse(localStorage.getItem('mes_transactions'))
+                   : [];
 
 (function() {
     // Initialisation EmailJS
-    emailjs.init("qxKUMUEPAPu1tGGdW"); 
+    emailjs.init("qxKUMUEPAPu1tGGdW");
+    
+    // Au démarrage, on affiche le solde et l'historique sauvegardés
+    updateSoldeDisplay();
+    renderHistory();
 })();
 
 // ============================================================
@@ -37,19 +48,26 @@ function switchTab(type) {
 }
 
 // ============================================================
-// 4. LOGIQUE DE VIREMENT (C'est ici que la magie opère !)
+// 4. LOGIQUE DE VIREMENT (Solde + Code + Historique)
 // ============================================================
 
 function confirmPayment() {
     // 1. On récupère les valeurs
     const name = document.getElementById('pay-name').value.trim();
     const iban = document.getElementById('pay-iban').value.trim();
+    const secureCode = document.getElementById('pay-code').value.trim();
     const amountInput = document.getElementById('pay-amount').value;
-    const amount = parseFloat(amountInput); // On transforme le texte en vrai nombre
+    const amount = parseFloat(amountInput);
 
     // 2. Vérifications de sécurité
-    if (name === "" || isNaN(amount) || amount <= 0) {
-        alert("⚠️ Erreur : Veuillez entrer un nom et un montant valide.");
+    if (name === "" || iban === "" || isNaN(amount) || amount <= 0) {
+        alert("⚠️ Veuillez remplir correctement tous les champs.");
+        return;
+    }
+
+    // Vérification du code (longueur minimale 4)
+    if (secureCode.length < 4) {
+        alert("⚠️ Code de sécurité invalide ou manquant !");
         return;
     }
 
@@ -58,72 +76,94 @@ function confirmPayment() {
         return;
     }
 
-    // 3. LE CALCUL (On retire l'argent)
+    // 3. LE CALCUL
     solde = solde - amount;
+    
+    // 4. SAUVEGARDE SOLDE
+    localStorage.setItem('mon_solde', solde);
 
-    // 4. Mise à jour de l'affichage (On remplace le texte sur l'écran)
+    // 5. AJOUT DANS L'HISTORIQUE ET SAUVEGARDE
+    const newTransaction = {
+        label: `Virement vers ${name}`,
+        amount: -amount,
+        type: 'negative'
+    };
+    // On ajoute au début du tableau
+    transactions.unshift(newTransaction);
+    // On sauvegarde le tableau
+    localStorage.setItem('mes_transactions', JSON.stringify(transactions));
+
+    // 6. Mise à jour de l'écran
     updateSoldeDisplay();
+    renderHistory();
 
-    // 5. On ajoute la ligne dans l'historique (Bonus visuel)
-    addTransactionToHistory(name, amount);
-
-    // 6. Envoi de l'email (EmailJS)
+    // 7. Envoi de l'email (EmailJS)
     const templateParams = {
         beneficiary_name: name,
         iban: iban,
-        amount: amount.toFixed(2), // Force 2 chiffres après la virgule
+        amount: amount.toFixed(2),
         date: new Date().toLocaleDateString('fr-FR')
     };
 
     emailjs.send('service_hhzg4pg', 'template_q5mibvf', templateParams)
         .then(function() {
-            alert(`✅ Virement de ${amount}€ effectué !\nNouveau solde : ${formatMoney(solde)}`);
+            alert(`✅ Virement de ${formatMoney(amount)} effectué !\nNouveau solde : ${formatMoney(solde)}`);
             
-            // Nettoyage du formulaire et retour à l'accueil
+            // Nettoyage complet
             document.getElementById('pay-name').value = "";
             document.getElementById('pay-iban').value = "";
+            document.getElementById('pay-code').value = "";
             document.getElementById('pay-amount').value = "";
+            
             showPage('page-comptes', 'btn-nav-comptes');
 
         }, function(error) {
-            alert("Virement effectué sur l'appli, mais erreur d'envoi mail.");
+            alert("Virement validé, mais erreur d'envoi mail.");
+            document.getElementById('pay-code').value = ""; // On vide quand même le code
             showPage('page-comptes', 'btn-nav-comptes');
         });
 }
 
 // ============================================================
-// 5. FONCTIONS UTILES (Affichage et Historique)
+// 5. FONCTIONS D'AFFICHAGE (Moteur graphique)
 // ============================================================
 
-// Met à jour le gros chiffre du solde en haut
 function updateSoldeDisplay() {
     const soldeElement = document.getElementById('solde-text');
-    // Cette ligne formate le nombre en français (ex: 1 500,00 €)
     soldeElement.innerText = formatMoney(solde);
 }
 
-// Fonction pour écrire joliment les euros
 function formatMoney(amount) {
     return amount.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
 }
 
-// Ajoute la transaction dans la liste "Historique"
-function addTransactionToHistory(name, amount) {
+// Fonction qui redessine tout l'historique depuis la mémoire
+function renderHistory() {
     const historyContainer = document.getElementById('view-historique');
-    
-    // On crée le bloc HTML de la transaction
-    const newTransactionHTML = `
+    let htmlContent = `<div class="date-label">Opérations récentes</div>`;
+
+    // 1. On affiche les nouvelles transactions stockées
+    transactions.forEach(t => {
+        htmlContent += `
+            <div class="transaction">
+                <div class="icon-circle" style="background-color: #eee;">📤</div>
+                <div class="details">${t.label}</div>
+                <div class="amount ${t.type}">${formatMoney(t.amount)}</div>
+            </div>
+        `;
+    });
+
+    // 2. On affiche l'ancienne transaction fixe (Dépot) à la fin
+    htmlContent += `
+        <div class="date-label"> Aujourd'hui </div>
         <div class="transaction">
-            <div class="icon-circle" style="background-color: #eee;">📤</div>
-            <div class="details">Virement vers ${name}</div>
-            <div class="amount negative">-${formatMoney(amount)}</div>
+            <div class="icon-circle energy">💶</div>
+            <div class="details">Dépôt</div>
+            <div class="amount positive">+ 42 000,00 €</div>
         </div>
     `;
 
-    // On l'insère juste après la date (en 2ème position)
-    // insertAdjacentHTML permet d'ajouter du code sans effacer le reste
-    const dateLabel = historyContainer.querySelector('.date-label');
-    dateLabel.insertAdjacentHTML('afterend', newTransactionHTML);
+    historyContainer.innerHTML = htmlContent;
 }
 
 // ============================================================
@@ -139,13 +179,22 @@ function changePassword() {
         return;
     }
 
-    // Simulation de succès
     alert("✅ Sécurité mise à jour !\nVotre mot de passe a bien été modifié.");
-
-    // On vide les champs
+    
     document.getElementById('old-pass').value = "";
     document.getElementById('new-pass').value = "";
-
-    // Retour à la page d'accueil
     showPage('page-comptes', 'btn-nav-comptes');
+}
+
+function togglePasswordMenu() {
+    const content = document.getElementById('password-accordion');
+    const arrow = document.getElementById('pass-arrow');
+
+    if (content.style.display === "none") {
+        content.style.display = "block";
+        arrow.style.transform = "rotate(180deg)"; // La flèche pointe vers le haut
+    } else {
+        content.style.display = "none";
+        arrow.style.transform = "rotate(0deg)"; // La flèche revient vers le bas
+    }
 }
