@@ -11,7 +11,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #222;
+    background-color: #222; /* Fond de l'écran d'ordinateur */
     display: flex;
     justify-content: center;
 }
@@ -19,39 +19,43 @@ body {
 .app-container {
     width: 375px;
     height: 812px;
-    background: white;
+    background: white; /* Fond de l'application (BLANC) */
     position: relative;
-    overflow-y: auto;
+    overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* Status Bar */
-.status-bar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
+/* Gestion des pages */
+.page { 
+    display: none; 
+    flex-direction: column; 
+    height: 100%; 
+    width: 100%;
+    overflow-y: auto; 
+    padding-bottom: 80px; 
+    background: white; 
 }
+.page.active { display: flex; }
 
-/* Header */
+/* Header & Navigation */
 .header { text-align: center; padding: 10px 0; }
 .top-navigation {
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 10px 20px;
     font-size: 18px;
     align-items: center;
 }
-.page-title { font-weight: 500; font-size: 16px; }
+.page-title { font-weight: 500; font-size: 16px; color: var(--text-dark); }
 
-.account-details { margin-top: 20px; }
-.user-name { margin: 0; font-weight: bold; font-size: 14px; }
+/* Compte & Balance */
+.account-details { margin-top: 20px; text-align: center; }
+.user-name { margin: 0; font-weight: bold; font-size: 14px; color: var(--text-dark); }
 .account-id { margin: 0; color: var(--text-muted); font-size: 12px; }
-.main-balance { color: var(--green-main); font-size: 32px; margin: 10px 0; }
+.main-balance { color: var(--green-main); font-size: 32px; margin: 10px 0; font-weight: bold; }
 .pending-amount { color: var(--text-muted); font-size: 13px; margin: 0; }
 
-/* Tabs */
+/* Tabs (Historique / A venir) */
 .tabs-container {
     display: flex;
     border-bottom: 1px solid #eee;
@@ -64,77 +68,59 @@ body {
     font-size: 12px;
     font-weight: bold;
     color: var(--text-muted);
+    cursor: pointer;
 }
 .tab.active {
     color: var(--green-main);
     border-bottom: 3px solid var(--green-main);
 }
 
-/* Search */
-.search-bar { padding: 15px; }
-.search-bar input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #eee;
-    background: #fcfcfc;
-    border-radius: 4px;
-}
-
 /* Transactions */
 .content { padding: 0 15px; }
 .date-label { color: var(--text-muted); font-size: 12px; margin: 15px 0 10px; }
-.transaction {
-    display: flex;
-    align-items: center;
-    padding: 12px 10px;
-    border-radius: 8px;
-}
-.transaction.highlight { background-color: #f7f9f0; }
-.icon-circle { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
-.details { flex: 1; font-weight: 500; font-size: 14px; }
+.transaction { display: flex; align-items: center; padding: 12px 10px; }
+.details { flex: 1; font-weight: 500; font-size: 14px; color: var(--text-dark); }
 .amount { font-weight: bold; }
 .negative { color: #d9534f; }
-.positive { color: var(--green-main); }
 
-/* Switch / Toggle Setting */
-.settings-section {
-    margin-top: 30px;
-    padding: 15px 0;
-    border-top: 1px solid #eee;
-}
-.setting-row {
+/* --- STYLE SPECIFIQUE PAGE CARTES (Thème Clair) --- */
+.empty-state {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 10px;
-}
-.setting-label { font-weight: bold; font-size: 18px; display: flex; align-items: center; }
-.info-icon {
-    background: #3a86ff;
-    color: white;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: inline-flex;
     justify-content: center;
-    align-items: center;
-    font-size: 12px;
-    margin-left: 10px;
+    padding: 60px 20px;
+    text-align: center;
 }
 
-/* Toggle Switch Design */
-.switch { position: relative; display: inline-block; width: 50px; height: 28px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider {
-    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #ccc; transition: .4s; border-radius: 34px;
+.card-placeholder {
+    width: 220px;
+    height: 130px;
+    border: 2px dashed #ddd;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    background-color: #fcfcfc;
 }
-.slider:before {
-    position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px;
-    background-color: white; transition: .4s; border-radius: 50%;
+
+.plus-icon { font-size: 40px; color: #ccc; }
+
+.empty-state h3 { font-size: 18px; color: var(--text-dark); margin-bottom: 10px; }
+.empty-state p { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 30px; }
+
+.btn-add {
+    background-color: var(--green-main);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(115, 163, 32, 0.2);
 }
-input:checked + .slider { background-color: var(--green-main); }
-input:checked + .slider:before { transform: translateX(22px); }
 
 /* Bottom Nav */
 .bottom-nav {
@@ -145,6 +131,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     border-top: 1px solid #eee;
     background: white;
     padding: 10px 0 25px;
+    z-index: 10;
 }
 .nav-item {
     flex: 1;
@@ -152,49 +139,90 @@ input:checked + .slider:before { transform: translateX(22px); }
     flex-direction: column;
     align-items: center;
     color: var(--text-muted);
+    cursor: pointer;
 }
 .nav-item.active { color: var(--green-main); }
 .nav-item .icon { font-size: 20px; }
 .nav-item .label { font-size: 10px; margin-top: 4px; }
 
-/* --- Nouveaux styles pour l'interactivité --- */
 
-/* Gestion des pages (Masquer/Afficher) */
-.page { display: none; flex-direction: column; height: 100%; overflow-y: auto; padding-bottom: 80px; }
-.page.active { display: flex; }
 
-/* Styles des Onglets cliquables */
-.tab { cursor: pointer; transition: background 0.2s; }
-.tab:hover { background-color: #f9f9f9; }
 
-/* Formulaire de Paiement */
-.payment-form { padding: 20px; }
-.payment-form h2 { font-size: 20px; margin-bottom: 20px; text-align: center; }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 5px; font-weight: bold; }
-.form-group input { 
-    width: 100%; 
-    padding: 12px; 
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
-    font-size: 14px; 
+
+/* --- STYLE PAGE PAIEMENT (Correction) --- */
+#page-paiement {
+    padding: 20px;
+}
+
+#page-paiement .form-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #fcfcfc;
+    font-size: 15px;
     outline: none;
+    transition: border-color 0.2s;
 }
-.form-group input:focus { border-color: var(--green-main); }
 
-.btn-send { 
-    width: 100%; 
-    background: var(--green-main); 
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    border-radius: 8px; 
-    font-weight: bold; 
-    font-size: 16px; 
-    cursor: pointer; 
-    margin-top: 10px; 
+.form-group input:focus {
+    border-color: var(--green-main);
 }
-.btn-send:active { opacity: 0.8; }
 
-/* Curseur sur la nav basse */
-.nav-item { cursor: pointer; }
+/* LE BOUTON CONFIRMER */
+.btn-send {
+    width: 100%;
+    background-color: var(--green-main);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(115, 163, 32, 0.2);
+}
+
+.btn-send:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #fcfcfc;
+    font-size: 15px;
+    font-family: monospace; /* Optionnel : l'IBAN est plus lisible en police monospace */
+}
