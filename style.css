@@ -213,3 +213,41 @@ body {
     color: #444;
     font-weight: 400;
 }
+
+/* --- AJOUTS POUR LES NOUVELLES PAGES --- */
+
+/* Le graphique camembert (Budget) */
+.pie-chart {
+    width: 120px;
+    height: 120px;
+    background: conic-gradient(var(--green-main) 0% 35%, #eee 35% 100%);
+    border-radius: 50%;
+    margin: 0 auto 30px;
+}
+
+/* Bouton retour (Flèche gauche) */
+.back-btn {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0 10px;
+    color: var(--text-dark);
+}
+
+/* --- AJOUTS FINAUX --- */
+
+/* Le graphique camembert (Budget) */
+.pie-chart {
+    width: 120px;
+    height: 120px;
+    background: conic-gradient(var(--green-main) 0% 35%, #eee 35% 100%);
+    border-radius: 50%;
+    margin: 0 auto 30px;
+}
+
+/* Bouton retour (Flèche gauche en haut) */
+.back-btn {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0 10px;
+    color: var(--text-dark);
+}
