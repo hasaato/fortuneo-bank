@@ -80,60 +80,183 @@
         </div>
     </div>
 
-<header class="header">
-    <div class="top-navigation">
-        <span></span>
-        <span class="page-title">Plus</span>
-        <span></span>
-    </div>
-</header>
-
-<div class="menu-list">
-    <div class="menu-item">
-        <i class="menu-icon fa-solid fa-building-columns"></i> <span class="menu-label">Marchés</span>
-    </div>
-    <div class="menu-item">
-        <i class="menu-icon fa-solid fa-list-ul"></i> <span class="menu-label">Listes</span>
-    </div>
-    <div class="menu-item">
-        <i class="menu-icon fa-solid fa-chart-pie"></i> <span class="menu-label">Mon budget</span>
-    </div>
-
-    <div class="menu-item">
-        <i class="menu-icon fa-solid fa-file-invoice"></i>
-        <span class="menu-label">Documents</span>
-    </div>
-    <div class="menu-item">
-        <i class="menu-icon fa-solid fa-bell"></i>
-        <span class="menu-label">Alertes</span>
-    </div>
-    <div class="menu-item">
-        <i class="menu-icon fa-solid fa-user-plus" style="color: #73A320;"></i>
-        <span class="menu-label">Nos produits</span>
-    </div>
-
-    <div class="menu-item" onclick="togglePasswordMenu()" style="cursor: pointer;">
-        <i class="menu-icon fa-solid fa-shield-halved"></i>
-        <span class="menu-label" style="flex: 1;">Sécurité / Mot de passe</span>
-        <span id="pass-arrow" style="transition: transform 0.3s;">
-            <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i>
-        </span>
-    </div>
-
-    <div id="password-accordion" style="display: none; padding: 20px; background: #fdfdfd; border-bottom: 1px solid #eee;">
-        <div class="payment-form">
-            <div class="form-group">
-                <label>ANCIEN MOT DE PASSE</label>
-                <input type="password" id="old-pass" placeholder="••••••••">
+<div id="page-plus" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span></span>
+                <span class="page-title">Plus</span>
+                <span></span>
             </div>
-            <div class="form-group">
-                <label>NOUVEAU MOT DE PASSE</label>
-                <input type="password" id="new-pass" placeholder="••••••••">
+        </header>
+
+        <div class="menu-list">
+            <div class="menu-item" onclick="showPage('page-marches', 'btn-nav-plus')" style="cursor:pointer;">
+                <i class="menu-icon fa-solid fa-building-columns"></i>
+                <span class="menu-label">Marchés</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #ccc; margin-left: auto;"></i>
             </div>
-            <button class="btn-send" onclick="changePassword()">Confirmer le changement</button>
+
+            <div class="menu-item" onclick="showPage('page-listes', 'btn-nav-plus')" style="cursor:pointer;">
+                <i class="menu-icon fa-solid fa-list-ul"></i>
+                <span class="menu-label">Listes</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #ccc; margin-left: auto;"></i>
+            </div>
+
+            <div class="menu-item" onclick="showPage('page-budget', 'btn-nav-plus')" style="cursor:pointer;">
+                <i class="menu-icon fa-solid fa-chart-pie"></i>
+                <span class="menu-label">Mon budget</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #ccc; margin-left: auto;"></i>
+            </div>
+
+            <div class="menu-item" onclick="showPage('page-documents', 'btn-nav-plus')" style="cursor:pointer;">
+                <i class="menu-icon fa-solid fa-file-invoice"></i>
+                <span class="menu-label">Documents</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #ccc; margin-left: auto;"></i>
+            </div>
+
+            <div class="menu-item" onclick="showPage('page-alertes', 'btn-nav-plus')" style="cursor:pointer;">
+                <i class="menu-icon fa-solid fa-bell"></i>
+                <span class="menu-label">Alertes</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #ccc; margin-left: auto;"></i>
+            </div>
+
+            <div class="menu-item" onclick="showPage('page-produits', 'btn-nav-plus')" style="cursor:pointer;">
+                <i class="menu-icon fa-solid fa-user-plus" style="color: #73A320;"></i>
+                <span class="menu-label">Nos produits</span>
+                <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: #ccc; margin-left: auto;"></i>
+            </div>
+
+            <div class="menu-item" onclick="togglePasswordMenu()" style="cursor: pointer;">
+                <i class="menu-icon fa-solid fa-shield-halved"></i>
+                <span class="menu-label" style="flex: 1;">Sécurité / Mot de passe</span>
+                <span id="pass-arrow" style="transition: transform 0.3s;">
+                    <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i>
+                </span>
+            </div>
+
+            <div id="password-accordion" style="display: none; padding: 20px; background: #fdfdfd; border-bottom: 1px solid #eee;">
+                <div class="payment-form">
+                    <div class="form-group">
+                        <label>ANCIEN MOT DE PASSE</label>
+                        <input type="password" id="old-pass" placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label>NOUVEAU MOT DE PASSE</label>
+                        <input type="password" id="new-pass" placeholder="••••••••">
+                    </div>
+                    <button class="btn-send" onclick="changePassword()">Confirmer</button>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+    <div id="page-marches" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="back-btn" onclick="showPage('page-plus', 'btn-nav-plus')">❮</span>
+                <span class="page-title">Marchés</span>
+                <span></span>
+            </div>
+        </header>
+        <div class="content" style="text-align: center; padding: 60px 20px;">
+            <i class="fa-solid fa-building-columns" style="font-size: 50px; color: var(--green-main); margin-bottom: 20px;"></i>
+            <h3 style="color: var(--text-dark); margin-bottom: 10px;">Accès Bourse</h3>
+            <p style="color: var(--text-muted); font-size: 15px; line-height: 1.5;">
+                Postulez dès maintenant pour vous inscrire sur le marché boursier et commencer à investir.
+            </p>
+            <br>
+            <button class="btn-send" onclick="alert('Votre demande a été prise en compte.')">Postuler à l'offre</button>
+        </div>
+    </div>
+
+    <div id="page-listes" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="back-btn" onclick="showPage('page-plus', 'btn-nav-plus')">❮</span>
+                <span class="page-title">Mes Listes</span>
+                <span></span>
+            </div>
+        </header>
+        <div class="content" style="text-align: center; padding-top: 100px;">
+            <i class="fa-solid fa-clipboard-list" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
+            <h3 style="color: #999; font-weight: normal;">Aucune liste à afficher</h3>
+        </div>
+    </div>
+
+    <div id="page-budget" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="back-btn" onclick="showPage('page-plus', 'btn-nav-plus')">❮</span>
+                <span class="page-title">Mon Budget</span>
+                <span></span>
+            </div>
+        </header>
+        <div class="content" style="text-align: center; padding: 60px 20px;">
+            <div class="pie-chart"></div> <h3 style="color: var(--text-dark); margin-bottom: 10px;">Gérez vos finances</h3>
+            <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 30px;">
+                Commencez dès maintenant à préparer votre budget de l'année pour mieux épargner.
+            </p>
+            <button class="btn-send" style="background-color: #333;">Créer un budget</button>
+        </div>
+    </div>
+    
+
+    <div id="page-documents" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="back-btn" onclick="showPage('page-plus', 'btn-nav-plus')">❮</span>
+                <span class="page-title">Documents</span>
+                <span></span>
+            </div>
+        </header>
+        <div class="content" style="text-align: center; padding: 60px 20px;">
+            <i class="fa-solid fa-file-invoice" style="font-size: 50px; color: #eee; margin-bottom: 20px;"></i>
+            <h3 style="color: var(--text-dark);">Mes documents</h3>
+            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 30px;">
+                Cliquez ici pour ajouter des documents et compléter le KYC.
+            </p>
+            <button class="btn-send" onclick="alert('Ouverture du gestionnaire de fichiers...')">Ajouter un document</button>
+        </div>
+    </div>
+
+    <div id="page-alertes" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="back-btn" onclick="showPage('page-plus', 'btn-nav-plus')">❮</span>
+                <span class="page-title">Alertes</span>
+                <span></span>
+            </div>
+        </header>
+        <div class="content" style="text-align: center; padding-top: 100px;">
+            <i class="fa-solid fa-bell-slash" style="font-size: 60px; color: #ddd; margin-bottom: 20px;"></i>
+            <h3 style="color: #999; font-weight: normal;">Aucune alerte à afficher</h3>
+        </div>
+    </div>
+
+    <div id="page-produits" class="page">
+        <header class="header">
+            <div class="top-navigation">
+                <span class="back-btn" onclick="showPage('page-plus', 'btn-nav-plus')">❮</span>
+                <span class="page-title">Nos produits</span>
+                <span></span>
+            </div>
+        </header>
+        <div class="content" style="padding: 20px;">
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid var(--green-main);">
+                <h4 style="margin: 0 0 5px 0;">Livret d'épargne</h4>
+                <p style="margin: 0; font-size: 13px; color: #666;">Taux boosté à 3% pendant 3 mois.</p>
+            </div>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid var(--green-main);">
+                <h4 style="margin: 0 0 5px 0;">Assurance Vie</h4>
+                <p style="margin: 0; font-size: 13px; color: #666;">Gérez votre avenir en toute sérénité.</p>
+            </div>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 12px; border-left: 5px solid var(--green-main);">
+                <h4 style="margin: 0 0 5px 0;">Crédit Immobilier</h4>
+                <p style="margin: 0; font-size: 13px; color: #666;">Réalisez vos projets immobiliers au meilleur taux.</p>
+            </div>
+        </div>
+    </div>
+
     
     <nav class="bottom-nav">
         <div class="nav-item active" id="btn-nav-comptes" onclick="showPage('page-comptes', 'btn-nav-comptes')">
