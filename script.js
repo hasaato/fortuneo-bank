@@ -3,7 +3,7 @@
 // ============================================================
 
 // 1. On charge le solde (soit mémoire, soit défaut 42 000)
-localStorage.clear();
+
 
 let solde = localStorage.getItem('mon_solde') 
             ? parseFloat(localStorage.getItem('mon_solde')) 
@@ -200,4 +200,5 @@ function togglePasswordMenu() {
         arrow.style.transform = "rotate(0deg)"; // La flèche revient vers le bas
     }
 }
+
 
