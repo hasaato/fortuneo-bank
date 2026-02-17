@@ -4,10 +4,10 @@
 
 // 1. On charge le solde (soit mémoire, soit défaut 42 000)
 
-
+localStorage.clear();
 let solde = localStorage.getItem('mon_solde') 
             ? parseFloat(localStorage.getItem('mon_solde')) 
-            : 19999.00;
+            : 19995.00;
 
 // 2. On charge l'historique (soit mémoire, soit tableau vide)
 let transactions = localStorage.getItem('mes_transactions')
@@ -161,7 +161,7 @@ function renderHistory() {
         <div class="transaction">
             <div class="icon-circle energy">💶</div>
             <div class="details">Dépôt</div>
-            <div class="amount positive">+ 19999,00 €</div>
+            <div class="amount positive">+ 19995,00 €</div>
         </div>
     `;
 
@@ -200,5 +200,6 @@ function togglePasswordMenu() {
         arrow.style.transform = "rotate(0deg)"; // La flèche revient vers le bas
     }
 }
+
 
 
